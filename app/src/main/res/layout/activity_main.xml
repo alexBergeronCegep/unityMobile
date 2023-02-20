@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:shadowColor="#FF0000"
+        android:shadowDx="@dimen/material_emphasis_medium"
+        android:shadowDy="@dimen/material_emphasis_high_type"
+        android:shadowRadius="@dimen/material_emphasis_high_type"
+        android:text="Tableau des scores"
+        android:textColor="#390000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="50"
+        android:orientation="horizontal">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvScoreMonde"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.5">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".1"
+            android:background="?android:attr/listDivider"
+            android:backgroundTint="#000000" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvScorePersonnel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -2,6 +2,7 @@ package com.example.tableaudescore;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         rvListe = findViewById(R.id.rvScore);
         rvListe.setHasFixedSize(true);
         // Liste en horizontale/verticale         Enlever la partie apres this pour que la liste soit verticale
-        rvListe.setLayoutManager(new GridLayoutManager(this, 2));
+        rvListe.setLayoutManager(new LinearLayoutManager(this));
 
         interfaceServeur interfaceServeur = RetrofitInstance.getInstance().create(interfaceServeur.class);
         Call<List<User>> call = interfaceServeur.getUsers("getUsers");

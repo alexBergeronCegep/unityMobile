@@ -55,4 +55,12 @@ public class User {
     public void setScore(int score) {
         this.score = score;
     }
+
+    public String heure()
+    {
+        int sec = getScore();
+        int heure = sec / 3600;
+        int min = sec % 3600 / 60;
+        return heure + "h " + min + "m ";
+    }
 }

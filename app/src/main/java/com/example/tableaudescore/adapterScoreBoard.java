@@ -31,7 +31,7 @@ public class adapterScoreBoard extends RecyclerView.Adapter<adapterScoreBoard.Mo
     @Override
     public void onBindViewHolder(@NonNull MonViewHolder holder, int position) {
         holder.tvUser.setText(liste.get(position).getUser());
-        holder.tvScore.setText(liste.get(position).getScore());
+        holder.tvScore.setText(liste.get(position).heure());
     }
 
     @Override

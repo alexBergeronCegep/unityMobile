@@ -1,11 +1,19 @@
 package com.example.tableaudescore;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.List;
@@ -16,9 +24,13 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    int id = -1;
     RecyclerView rvListe;
 
     adapterScoreBoard adapterScoreBoard;
+
+    ActivityResultLauncher<Intent> resultLauncher;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +41,18 @@ public class MainActivity extends AppCompatActivity {
         rvListe.setHasFixedSize(true);
         // Liste en horizontale/verticale         Enlever la partie apres this pour que la liste soit verticale
         rvListe.setLayoutManager(new LinearLayoutManager(this));
+
+
+        resultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if(result.getResultCode() == RESULT_OK){
+                            id = result.getData().getIntExtra("id", 0);
+                        }
+                    }
+                });
 
         interfaceServeur interfaceServeur = RetrofitInstance.getInstance().create(interfaceServeur.class);
         Call<List<User>> call = interfaceServeur.getUsers("getUsers");
@@ -47,5 +71,19 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menuConnexion) {
+            Intent intent = new Intent(this, ConnexionActivity.class);
+            resultLauncher.launch(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

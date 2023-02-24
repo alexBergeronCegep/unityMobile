@@ -30,6 +30,7 @@ public class adapterScoreBoard extends RecyclerView.Adapter<adapterScoreBoard.Mo
 
     @Override
     public void onBindViewHolder(@NonNull MonViewHolder holder, int position) {
+        holder.tvPosition.setText(String.valueOf(position+1));
         holder.tvUser.setText(liste.get(position).getUser());
         holder.tvScore.setText(liste.get(position).heure());
     }
@@ -42,10 +43,11 @@ public class adapterScoreBoard extends RecyclerView.Adapter<adapterScoreBoard.Mo
 
     public class MonViewHolder extends RecyclerView.ViewHolder
     {
-        TextView tvUser, tvScore;
+        TextView tvUser, tvScore , tvPosition;
         public MonViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            tvPosition = itemView.findViewById(R.id.tvPosition);
             tvUser = itemView.findViewById(R.id.tvUser);
             tvScore = itemView.findViewById(R.id.tvScore);
 

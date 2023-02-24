@@ -15,5 +15,9 @@ public interface interfaceServeur {
 
     @POST("unityMobile.php")
     @FormUrlEncoded
-    Call<List<User>> getUser(@Field("requete") String requete ,@Field("id") int id);
+    Call<String> getConnexion(@Field("requete") String requete ,@Field("user") String user, @Field("password") String password);
+
+    @POST("unityMobile.php")
+    @FormUrlEncoded
+    Call<String> getInscription(@Field("requete") String requete ,@Field("user") String user, @Field("password") String password);
 }

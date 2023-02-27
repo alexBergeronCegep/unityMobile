@@ -7,8 +7,10 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,6 +22,8 @@ public class ConnexionActivity extends AppCompatActivity {
 
     EditText etUser, etPassword;
 
+    CheckBox souvenir;
+
     ActivityResultLauncher<Intent> resultLauncher;
 
     @Override
@@ -29,6 +33,7 @@ public class ConnexionActivity extends AppCompatActivity {
 
         etUser = findViewById(R.id.etUserCon);
         etPassword = findViewById(R.id.etPasswordCon);
+        souvenir = findViewById(R.id.souvenir);
 
 
         resultLauncher = registerForActivityResult(
@@ -64,10 +69,29 @@ public class ConnexionActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        Intent intent = new Intent();
-                        intent.putExtra("id", Integer.parseInt(response.body()));
-                        setResult(RESULT_OK, intent);
-                        finish();
+                        if(souvenir.isChecked())
+                        {
+                            SharedPreferences pref = getSharedPreferences("connection",MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
+                            editor.putInt("id", Integer.parseInt(response.body()));
+                            editor.putString("user", etUser.getText().toString());
+                            editor.putBoolean("isConnected", true);
+                            editor.commit();
+                        }
+                        else
+                        {
+                            SharedPreferences pref = getSharedPreferences("connection",MODE_PRIVATE);
+                            SharedPreferences.Editor editor = pref.edit();
+                            editor.putInt("id", -1);
+                            editor.putString("user", "");
+                            editor.putBoolean("isConnected", false);
+                            editor.commit();
+                            Intent intent = new Intent();
+                            intent.putExtra("id", Integer.parseInt(response.body()));
+                            intent.putExtra("user", etUser.getText().toString());
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
                     }
                 }
 

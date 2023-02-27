@@ -9,7 +9,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="La meilleure application de tous les temps"
         android:networkSecurityConfig="@xml/configuration_reseau"
         android:supportsRtl="true"
         android:theme="@style/Theme.TableauDeScore"

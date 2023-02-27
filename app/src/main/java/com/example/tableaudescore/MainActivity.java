@@ -11,9 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.GetChars;
+import android.text.Layout;
+import android.text.SpannableString;
+import android.text.style.AlignmentSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.Toast;
 
 import java.util.List;
@@ -26,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     int id = -1;
+    String user = "";
     RecyclerView rvListe;
 
     adapterScoreBoard adapterScoreBoard;
@@ -35,6 +42,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences pref = getSharedPreferences("connection", MODE_PRIVATE);
+        Boolean b = pref.getBoolean("isConnected", false);
+        if(b)
+        {
+            id = pref.getInt("id", -1);
+            user = pref.getString("user", "");
+            getSupportActionBar().setTitle("utilisateur " + user);
+        }
+        else
+        {
+            getSupportActionBar().setTitle("utilisateur non connecté");
+        }
 
 
         rvListe = findViewById(R.id.rvScore);
@@ -50,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onActivityResult(ActivityResult result) {
                         if(result.getResultCode() == RESULT_OK){
                             id = result.getData().getIntExtra("id", 0);
+                            user = result.getData().getStringExtra("user");
+                            getSupportActionBar().setTitle("utilisateur " + user);
                         }
                     }
                 });

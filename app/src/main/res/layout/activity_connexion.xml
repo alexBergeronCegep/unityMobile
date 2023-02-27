@@ -64,12 +64,13 @@
         android:id="@+id/btConnexion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="17dp"
         android:onClick="onClick"
         android:text="connexion"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswordCon" />
+        app:layout_constraintTop_toBottomOf="@+id/souvenir" />
 
     <Button
         android:id="@+id/btInscription"
@@ -82,4 +83,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPasswordCon" />
+
+    <CheckBox
+        android:id="@+id/souvenir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="se souvenir de moi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btInscription" />
 </androidx.constraintlayout.widget.ConstraintLayout>

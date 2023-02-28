@@ -77,6 +77,11 @@ public class ConnexionActivity extends AppCompatActivity {
                             editor.putString("user", etUser.getText().toString());
                             editor.putBoolean("isConnected", true);
                             editor.commit();
+                            Intent intent = new Intent();
+                            intent.putExtra("id", Integer.parseInt(response.body()));
+                            intent.putExtra("user", etUser.getText().toString());
+                            setResult(RESULT_OK, intent);
+                            finish();
                         }
                         else
                         {

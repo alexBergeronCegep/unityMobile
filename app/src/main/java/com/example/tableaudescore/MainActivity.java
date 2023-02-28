@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.GetChars;
 import android.text.Layout;
@@ -20,6 +21,7 @@ import android.text.style.AlignmentSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -33,7 +35,11 @@ public class MainActivity extends AppCompatActivity {
 
     int id = -1;
     String user = "";
+    int score = 63000;
     RecyclerView rvListe;
+
+    TextView tvScore;
+    MenuItem menuConnexion , menuDeconnexion;
 
     adapterScoreBoard adapterScoreBoard;
 
@@ -42,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tvScore = findViewById(R.id.tvOwnScore);
 
         SharedPreferences pref = getSharedPreferences("connection", MODE_PRIVATE);
         Boolean b = pref.getBoolean("isConnected", false);
@@ -72,9 +80,14 @@ public class MainActivity extends AppCompatActivity {
                             id = result.getData().getIntExtra("id", 0);
                             user = result.getData().getStringExtra("user");
                             getSupportActionBar().setTitle("utilisateur " + user);
+                            ownScore();
                         }
                     }
                 });
+        if(id != -1)
+        {
+            ownScore();
+        }
 
         interfaceServeur interfaceServeur = RetrofitInstance.getInstance().create(interfaceServeur.class);
         Call<List<User>> call = interfaceServeur.getUsers("getUsers");
@@ -98,14 +111,63 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        menuConnexion = menu.findItem(R.id.menuConnexion);
+        menuDeconnexion = menu.findItem(R.id.idDeconnexion);
+        if(id != -1)
+        {
+            menuConnexion.setVisible(false);
+            menuDeconnexion.setVisible(true);
+        }
+        else
+        {
+            menuConnexion.setVisible(true);
+            menuDeconnexion.setVisible(false);
+        }
         return true;
     }
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menuConnexion) {
+            menuConnexion.setVisible(false);
+            menuDeconnexion.setVisible(true);
             Intent intent = new Intent(this, ConnexionActivity.class);
             resultLauncher.launch(intent);
+        } else if (item.getItemId() == R.id.idDeconnexion) {
+            SharedPreferences pref = getSharedPreferences("connection",MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putInt("id", -1);
+            editor.putString("user", "");
+            editor.putBoolean("isConnected", false);
+            editor.commit();
+            id = -1;
+            user = "";
+            getSupportActionBar().setTitle("utilisateur non connecté");
+            menuConnexion.setVisible(true);
+            menuDeconnexion.setVisible(false);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void ownScore()
+    {
+        interfaceServeur interfaceServeur2 = RetrofitInstance.getInstance().create(interfaceServeur.class);
+        Call<String> call2 = interfaceServeur2.getScore("getScore", id);
+
+        call2.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                String s = response.body();
+                score = Integer.parseInt(s);
+                int heure = score / 3600;
+                int min = score % 3600 / 60;
+                tvScore.setText(heure + "h " + min + "m ");
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                String s = t.getMessage();
+                Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

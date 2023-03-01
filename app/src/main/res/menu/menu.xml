@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/scan"
+        android:icon="@drawable/ic_qr"
+        android:title="scan"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/menuConnexion"
         android:icon="@drawable/ic_login"
         android:title="connexion"

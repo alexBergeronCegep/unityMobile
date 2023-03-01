@@ -145,6 +145,11 @@ public class MainActivity extends AppCompatActivity {
             menuConnexion.setVisible(true);
             menuDeconnexion.setVisible(false);
         }
+        else if(item.getItemId() == R.id.scan)
+        {
+            Intent intent = new Intent(this, QRCode.class);
+            resultLauncher.launch(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 

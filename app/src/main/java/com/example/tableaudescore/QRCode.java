@@ -12,16 +12,31 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.hivemq.client.mqtt.MqttClient;
+import com.hivemq.client.mqtt.mqtt3.Mqtt3AsyncClient;
 
 public class QRCode extends AppCompatActivity {
 
     Button scanBtn;
+
+    int id;
     TextView messageText, messageFormat;
+
+    Mqtt3AsyncClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_code);
+
+        id = getIntent().getIntExtra("id",-1);
+
+        client = MqttClient.builder()
+                .useMqttVersion3()
+                .identifier("android")
+                .serverHost("172.16.207.246")
+                .serverPort(1883)
+                .buildAsync();
 
         scanBtn = findViewById(R.id.scanBtn);
         messageText = findViewById(R.id.textContent);
@@ -52,6 +67,30 @@ public class QRCode extends AppCompatActivity {
                 // the content and format of scan message
                 messageText.setText(intentResult.getContents());
                 messageFormat.setText(intentResult.getFormatName());
+                client.connectWith()
+                        .simpleAuth()
+                        .username("test")
+                        .password("test".getBytes())
+                        .applySimpleAuth()
+                        .send()
+                        .whenComplete((connAck, throwable) -> {
+                            if (throwable != null) {
+                            } else {
+                                String idString = Integer.toString(id);
+                                // setup subscribes or start publishing
+                                client.publishWith()
+                                        .topic("test")
+                                        .payload(idString.getBytes())
+                                        .send()
+                                        .whenComplete((publish, throwable2) -> {
+                                            if (throwable2 != null) {
+                                                // handle failure to publish
+                                            } else {
+                                                // handle successful publish, e.g. logging or incrementing a metric
+                                            }
+                                        });
+                            }
+                        });
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

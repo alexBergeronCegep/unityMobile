@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
         else if(item.getItemId() == R.id.scan)
         {
             Intent intent = new Intent(this, QRCode.class);
+            intent.putExtra("id", id);
             resultLauncher.launch(intent);
         }
         return super.onOptionsItemSelected(item);

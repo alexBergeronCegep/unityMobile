@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,10 +15,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.GetChars;
 import android.text.Layout;
 import android.text.SpannableString;
 import android.text.style.AlignmentSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -39,15 +43,25 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvListe;
 
     TextView tvScore;
-    MenuItem menuConnexion , menuDeconnexion;
+    MenuItem menuConnexion , menuDeconnexion, menuQR;
 
     adapterScoreBoard adapterScoreBoard;
 
     ActivityResultLauncher<Intent> resultLauncher;
+
+    boolean doubleBackToExitPressedOnce = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main);
+
+        if(savedInstanceState != null)
+        {
+            id = savedInstanceState.getInt("id");
+            user = savedInstanceState.getString("user");
+            score = savedInstanceState.getInt("score");
+        }
 
         tvScore = findViewById(R.id.tvOwnScore);
 
@@ -113,15 +127,18 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu, menu);
         menuConnexion = menu.findItem(R.id.menuConnexion);
         menuDeconnexion = menu.findItem(R.id.idDeconnexion);
+        menuQR = menu.findItem(R.id.scan);
         if(id != -1)
         {
             menuConnexion.setVisible(false);
             menuDeconnexion.setVisible(true);
+            menuQR.setVisible(true);
         }
         else
         {
             menuConnexion.setVisible(true);
             menuDeconnexion.setVisible(false);
+            menuQR.setVisible(false);
         }
         return true;
     }
@@ -130,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.menuConnexion) {
             menuConnexion.setVisible(false);
             menuDeconnexion.setVisible(true);
+            menuQR.setVisible(true);
             Intent intent = new Intent(this, ConnexionActivity.class);
             resultLauncher.launch(intent);
         } else if (item.getItemId() == R.id.idDeconnexion) {
@@ -144,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("utilisateur non connecté");
             menuConnexion.setVisible(true);
             menuDeconnexion.setVisible(false);
+            menuQR.setVisible(false);
         }
         else if(item.getItemId() == R.id.scan)
         {
@@ -175,5 +194,35 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current game state
+        savedInstanceState.putInt("id", id);
+        savedInstanceState.putString("user", user);
+        savedInstanceState.putInt("score", score);
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onBackPressed () {
+        Toast.makeText(this, "Glisser à nouveau pour quitter", Toast.LENGTH_SHORT).show();
+        if(doubleBackToExitPressedOnce)
+        {
+            finishAndRemoveTask();
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }

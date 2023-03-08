@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.hivemq.client.mqtt.MqttClient;
+import com.hivemq.client.mqtt.datatypes.MqttQos;
 import com.hivemq.client.mqtt.mqtt3.Mqtt3AsyncClient;
 
 public class QRCode extends AppCompatActivity {
@@ -59,10 +62,12 @@ public class QRCode extends AppCompatActivity {
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         // if the intentResult is null then
         // toast a message as "cancelled"
-        if (intentResult != null) {
+        if (intentResult != null)
+        {
             if (intentResult.getContents() == null) {
                 Toast.makeText(getBaseContext(), "Cancelled", Toast.LENGTH_SHORT).show();
-            } else {
+            } else
+            {
                 // if the intentResult is not null we'll set
                 // the content and format of scan message
                 messageText.setText(intentResult.getContents());
@@ -74,26 +79,31 @@ public class QRCode extends AppCompatActivity {
                         .applySimpleAuth()
                         .send()
                         .whenComplete((connAck, throwable) -> {
+                            Log.d("test", "test");
                             if (throwable != null) {
+                                Log.d("test", "error connection");
                             } else {
+                                Log.d("test", "je me connection");
                                 String idString = Integer.toString(id);
                                 // setup subscribes or start publishing
                                 client.publishWith()
-                                        .topic("test")
+                                        .topic(intentResult.getContents())
                                         .payload(idString.getBytes())
                                         .send()
                                         .whenComplete((publish, throwable2) -> {
                                             if (throwable2 != null) {
-                                                // handle failure to publish
+                                                Log.d("test", "publish error");
                                             } else {
-                                                // handle successful publish, e.g. logging or incrementing a metric
+                                                Log.d("test", "publish ok");
                                             }
                                         });
                             }
                         });
             }
-        } else {
+        } else
+        {
             super.onActivityResult(requestCode, resultCode, data);
+            Log.d("test", "autre");
         }
     }
 }

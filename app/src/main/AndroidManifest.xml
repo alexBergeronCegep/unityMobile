@@ -8,20 +8,23 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="La meilleure application de tous les temps"
+        android:icon="@mipmap/ic_logo"
+        android:label="ManlyIdiotLaunchesFar"
         android:networkSecurityConfig="@xml/configuration_reseau"
         android:supportsRtl="true"
         android:theme="@style/Theme.TableauDeScore"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:parentActivityName=".MainActivity"
             android:name=".QRCode"
             android:exported="false" />
         <activity
+            android:parentActivityName=".ConnexionActivity"
             android:name=".InscriptionActivity"
             android:exported="false" />
         <activity
+            android:parentActivityName=".MainActivity"
             android:name=".ConnexionActivity"
             android:exported="false" />
         <activity

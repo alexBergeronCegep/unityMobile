@@ -10,7 +10,7 @@
         android:id="@+id/tvConnexion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:text="Connexion"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,8 +22,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:background="@drawable/border"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="@color/vert"
+        android:textColorHint="@color/vert"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,8 +37,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:background="@drawable/border"
         android:ems="10"
         android:inputType="textPassword"
+        android:textColor="@color/vert"
+        android:textColorHint="@color/vert"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPasswordCon" />
@@ -45,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="101dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="50dp"
         android:text="Nom d'utilisateur"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvConnexion" />
@@ -55,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="102dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="40dp"
         android:text="Mot de passe"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etUserCon" />
@@ -64,33 +70,36 @@
         android:id="@+id/btConnexion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="25dp"
         android:onClick="onClick"
         android:text="connexion"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/souvenir" />
+        app:layout_constraintTop_toBottomOf="@+id/etPasswordCon" />
 
     <Button
         android:id="@+id/btInscription"
         android:layout_width="121dp"
         android:layout_height="30dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="23dp"
         android:onClick="onClick"
         android:text="créer un compte"
-        android:textSize="8sp"
+        android:textSize="6sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswordCon" />
+        app:layout_constraintTop_toBottomOf="@+id/souvenir" />
 
     <CheckBox
         android:id="@+id/souvenir"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:layout_width="224dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="17dp"
+        android:background="@drawable/border"
         android:text="se souvenir de moi"
+        android:textColor="@color/vert"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btInscription" />
+        app:layout_constraintTop_toBottomOf="@+id/btConnexion" />
 </androidx.constraintlayout.widget.ConstraintLayout>

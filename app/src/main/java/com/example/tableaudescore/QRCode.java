@@ -23,8 +23,6 @@ public class QRCode extends AppCompatActivity {
     Button scanBtn;
 
     int id;
-    TextView messageText, messageFormat;
-
     Mqtt3AsyncClient client;
 
     @Override
@@ -42,8 +40,6 @@ public class QRCode extends AppCompatActivity {
                 .buildAsync();
 
         scanBtn = findViewById(R.id.scanBtn);
-        messageText = findViewById(R.id.textContent);
-        messageFormat = findViewById(R.id.textFormat);
     }
 
     public void click(View view) {
@@ -70,8 +66,6 @@ public class QRCode extends AppCompatActivity {
             {
                 // if the intentResult is not null we'll set
                 // the content and format of scan message
-                messageText.setText(intentResult.getContents());
-                messageFormat.setText(intentResult.getFormatName());
                 client.connectWith()
                         .simpleAuth()
                         .username("test")

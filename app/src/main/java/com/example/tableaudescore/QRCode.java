@@ -1,12 +1,14 @@
 package com.example.tableaudescore;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ public class QRCode extends AppCompatActivity {
     Button scanBtn;
 
     int id;
+    String user;
     Mqtt3AsyncClient client;
 
     @Override
@@ -30,7 +33,17 @@ public class QRCode extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_code);
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         id = getIntent().getIntExtra("id",-1);
+        user = getIntent().getStringExtra("user");
+        if (id == -1) {
+            setResult(RESULT_CANCELED);
+            finish();
+        }
 
         client = MqttClient.builder()
                 .useMqttVersion3()
@@ -75,7 +88,7 @@ public class QRCode extends AppCompatActivity {
                         .whenComplete((connAck, throwable) -> {
                             Log.d("test", "test");
                             if (throwable != null) {
-                                Log.d("test", "error connection");
+                                Log.d("test", "error connection " + throwable.getMessage());
                             } else {
                                 Log.d("test", "je me connection");
                                 String idString = Integer.toString(id);
@@ -91,6 +104,11 @@ public class QRCode extends AppCompatActivity {
                                                 Log.d("test", "publish ok");
                                             }
                                         });
+                                Intent intent = new Intent();
+                                intent.putExtra("id", id);
+                                intent.putExtra("user", user);
+                                setResult(RESULT_CANCELED);
+                                finish();
                             }
                         });
             }
@@ -99,5 +117,13 @@ public class QRCode extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
             Log.d("test", "autre");
         }
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

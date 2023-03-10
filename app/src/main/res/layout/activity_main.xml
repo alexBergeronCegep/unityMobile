@@ -20,11 +20,11 @@
         android:id="@+id/textView3"
         android:layout_width="75dp"
         android:layout_height="19dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="72dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="50dp"
         android:text="position"
         app:layout_constraintEnd_toStartOf="@+id/textView4"
-        app:layout_constraintHorizontal_bias="0.823"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
-        android:layout_marginEnd="45dp"
+        android:layout_marginEnd="50dp"
         android:text="utilisateur"
         app:layout_constraintEnd_toStartOf="@+id/textView5"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
-        android:layout_marginEnd="75dp"
+        android:layout_marginEnd="70dp"
         android:text="score"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -51,13 +51,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvScore"
         android:layout_width="407dp"
-        android:layout_height="684dp"
+        android:layout_height="515dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTableau"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintVertical_bias="0.089999974">
 
     </androidx.recyclerview.widget.RecyclerView>
 

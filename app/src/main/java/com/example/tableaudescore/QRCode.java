@@ -22,8 +22,6 @@ import com.hivemq.client.mqtt.mqtt3.Mqtt3AsyncClient;
 
 public class QRCode extends AppCompatActivity {
 
-    Button scanBtn;
-
     int id;
     String user;
     Mqtt3AsyncClient client;
@@ -52,13 +50,6 @@ public class QRCode extends AppCompatActivity {
                 .serverPort(1883)
                 .buildAsync();
 
-        scanBtn = findViewById(R.id.scanBtn);
-    }
-
-    public void click(View view) {
-        // we need to create the object
-        // of IntentIntegrator class
-        // which is the class of QR library
         IntentIntegrator intentIntegrator = new IntentIntegrator(this);
         intentIntegrator.setPrompt("Scan a barcode or QR Code");
         intentIntegrator.setOrientationLocked(true);
@@ -104,13 +95,13 @@ public class QRCode extends AppCompatActivity {
                                                 Log.d("test", "publish ok");
                                             }
                                         });
-                                Intent intent = new Intent();
-                                intent.putExtra("id", id);
-                                intent.putExtra("user", user);
-                                setResult(RESULT_CANCELED);
-                                finish();
                             }
                         });
+                Intent intent = new Intent();
+                intent.putExtra("id", id);
+                intent.putExtra("user", user);
+                setResult(RESULT_CANCELED);
+                finish();
             }
         } else
         {

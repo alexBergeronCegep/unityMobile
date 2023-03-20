@@ -183,9 +183,11 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 String s = response.body();
                 score = Integer.parseInt(s);
-                int heure = score / 3600;
-                int min = score % 3600 / 60;
-                tvScore.setText(heure + "h " + min + "m ");
+                int milisec = score % 100;
+                int sec = (score / 100) % 60;
+                int min = (score / 100) / 60 % 60;
+                int hour = (score / 100) / 60 / 60 % 60;
+                tvScore.setText(hour + "h" + min + "m" + sec + "s" + milisec + " ms");
             }
 
             @Override

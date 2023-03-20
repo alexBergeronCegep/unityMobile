@@ -58,9 +58,11 @@ public class User {
 
     public String heure()
     {
-        int sec = getScore();
-        int heure = sec / 3600;
-        int min = sec % 3600 / 60;
-        return heure + "h " + min + "m ";
+        int score = getScore();
+        int milisec = score % 100;
+        int sec = (score / 100) % 60;
+        int min = (score / 100) / 60 % 60;
+        int hour = (score / 100) / 60 / 60 % 60;
+        return hour + "h " + min + "m " + sec + "s, " + milisec + "ms";
     }
 }
